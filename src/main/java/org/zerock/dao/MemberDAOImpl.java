@@ -6,13 +6,14 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.zerock.vo.MemberVO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
 	
-	@Inject
+	@Autowired
 	private SqlSession mybatis;
 	
 	private static final String namespace = "org.zerock.mapper.MemberMapper";
@@ -23,7 +24,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void isnertMember(MemberVO vo) {
+	public void insertMember(MemberVO vo) {
 		mybatis.insert(namespace+".insertMember", vo);
 	}
 

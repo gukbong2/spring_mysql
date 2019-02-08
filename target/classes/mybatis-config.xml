@@ -5,7 +5,9 @@
 	
 <configuration>
 	
-	
+	<typeAliases>
+		<package name="org.zerock.vo"/>
+	</typeAliases>
 	
 		
 </configuration>

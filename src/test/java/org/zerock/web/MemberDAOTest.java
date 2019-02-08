@@ -24,11 +24,11 @@ public class MemberDAOTest {
 	@Test
 	public void testInsertMember() throws Exception {
 		MemberVO vo = new MemberVO();
-		vo.setEmail("test02@gmail.com");
-		vo.setUserid("test02");
-		vo.setUserpw("test02");
-		vo.setUsername("test02");
-		dao.isnertMember(vo);
+		vo.setEmail("test06@gmail.com");
+		vo.setUserid("test06");
+		vo.setUserpw("test06");
+		vo.setUsername("test06");
+		dao.insertMember(vo);
 	}
 	
 	@Test
