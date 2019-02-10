@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.dao.BoardDAO;
 import org.zerock.vo.BoardVO;
+import org.zerock.vo.PagingVO;
 @Service
 public class BoardServiceImpl implements BoardService{
 
@@ -35,6 +36,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardVO> listBoardService() throws Exception {
 		return dao.listBoard();
+	}
+
+	@Override
+	public List<BoardVO> listPageBoardPagingService(PagingVO page) {
+		return dao.listPageBoardPaging(page);
+	}
+
+	@Override
+	public int listCountWithPagingVO(PagingVO page) throws Exception {
+		return dao.countPaging(page);
 	}
 	
 }

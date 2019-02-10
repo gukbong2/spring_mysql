@@ -29,7 +29,25 @@
 		SELECT * FROM TBL_BOARD
 			WHERE BNO > 0
 			ORDER BY BNO DESC, REGDATE DESC
-	
 	</select>	
 	
+	<select id="listPageBoard" resultType="BoardVO">
+		SELECT * FROM TBL_BOARD
+			WHERE BNO > 0
+			ORDER BY BNO ASC
+			LIMIT #{page}, 10
+	</select>
+	
+	<select id="listPageBoardPaging" resultType="BoardVO">
+		SELECT * FROM TBL_BOARD
+			WHERE BNO > 0
+			ORDER BY BNO DESC
+			LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="countPaging" resultType="int">
+		SELECT COUNT(BNO) FROM TBL_BOARD
+			WHERE BNO > 0
+	</select>
+		
 	</mapper>
