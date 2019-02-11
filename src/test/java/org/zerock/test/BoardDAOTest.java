@@ -114,25 +114,25 @@ public class BoardDAOTest {
 //    logger.info(uriComponents.toString());
 //  }
 //
-//  @Test
-//  public void testDynamic1() throws Exception {
-//
-//    SearchCriteria cri = new SearchCriteria();
-//    cri.setPage(1);
-//    cri.setKeyword("글");
-//    cri.setSearchType("t");
-//
-//    logger.info("=====================================");
-//
-//    List<BoardVO> list = dao.listSearch(cri);
-//
-//    for (BoardVO boardVO : list) {
-//      logger.info(boardVO.getBno() + ": " + boardVO.getTitle());
-//    }
-//
-//    logger.info("=====================================");
-//
-//    logger.info("COUNT: " + dao.listSearchCount(cri));
-//  }
+  @Test
+  public void testDynamic1() throws Exception {
+
+    SearchCriteria cri = new SearchCriteria();
+    cri.setPage(1);
+    cri.setKeyword("글");
+    cri.setSearchType("t");
+
+    logger.info("=====================================");
+
+    List<BoardVO> list = dao.listSearch(cri);
+
+    for (BoardVO boardVO : list) {
+      logger.info(boardVO.getBno() + ": " + boardVO.getTitle());
+    }
+
+    logger.info("=====================================");
+
+    logger.info("COUNT: " + dao.listSearchCount(cri));
+  }
 
 }

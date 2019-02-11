@@ -23,31 +23,32 @@
 				<div class='box-body'>
 
 					<select name="searchType">
-						<option value="n"
+						<option value="n" 
 							<c:out value="${cri.searchType == null?'selected':''}"/>>
-							---</option>
+							---</option> <!-- 검색 조건 : 없음  -->
 						<option value="t"
 							<c:out value="${cri.searchType eq 't'?'selected':''}"/>>
-							Title</option>
+							Title</option> <!-- 검색 조건 : 제목  -->
 						<option value="c"
 							<c:out value="${cri.searchType eq 'c'?'selected':''}"/>>
-							Content</option>
+							Content</option> <!-- 검색 조건 : 내용  -->
 						<option value="w"
 							<c:out value="${cri.searchType eq 'w'?'selected':''}"/>>
-							Writer</option>
+							Writer</option> <!-- 검색 조건 : 작성자  -->
 						<option value="tc"
 							<c:out value="${cri.searchType eq 'tc'?'selected':''}"/>>
-							Title OR Content</option>
+							Title OR Content</option> <!-- 검색 조건 : 제목 + 내용  -->
 						<option value="cw"
 							<c:out value="${cri.searchType eq 'cw'?'selected':''}"/>>
-							Content OR Writer</option>
+							Content OR Writer</option> <!-- 검색 조건 : 내용 + 작성자  -->
 						<option value="tcw"
 							<c:out value="${cri.searchType eq 'tcw'?'selected':''}"/>>
-							Title OR Content OR Writer</option>
-					</select> <input type="text" name='keyword' id="keywordInput"
+							Title OR Content OR Writer</option> <!-- 검색 조건 : 제목 + 내용 + 작성자  -->
+					</select> 
+					
+					<input type="text" name='keyword' id="keywordInput"
 						value='${cri.keyword }'>
 					<button id='searchBtn'>Search</button>
-					<button id='newBtn'>New Board</button>
 
 				</div>
 			</div>
@@ -56,6 +57,7 @@
 			<div class="box">
 				<div class="box-header with-border">
 					<h3 class="box-title">LIST PAGING</h3>
+					<button class='btn btn-primary pull-right' onclick="register()" id="newBtn">글 작성</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -71,9 +73,11 @@
 
 							<tr>
 								<td>${boardVO.bno}</td>
-								<td><a
-									href='/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardVO.bno}'>
-										${boardVO.title} </a></td>
+								<td>
+									<a href='/sboard/readPage${pageMaker.makeSearch(pageMaker.cri.page) }&bno=${boardVO.bno}'>
+										${boardVO.title} 
+									</a>
+								</td>
 								<td>${boardVO.writer}</td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm"
 										value="${boardVO.regdate}" /></td>
@@ -151,7 +155,7 @@
 
 				$('#newBtn').on("click", function(evt) {
 
-					self.location = "register";
+					self.location = "/sboard/register";
 
 				});
 
