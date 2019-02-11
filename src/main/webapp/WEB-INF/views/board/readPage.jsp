@@ -17,8 +17,8 @@
  <form role="form" action="modifyPage" method="post">
     
     <input type='hidden' name='bno' value ="${boardVO.bno}">
-    <input type='hidden' name='page' value ="${p.page}">
-    <input type='hidden' name='perPageNum' value ="${p.perPageNum}">
+    <input type='hidden' name='page' value ="${cri.page}">
+    <input type='hidden' name='perPageNum' value ="${cri.perPageNum}">
     
  </form>   
     
@@ -55,19 +55,19 @@ $(document).ready(function(){
 	console.log(formObj);
 	
 	$(".btn-warning").on("click", function(){
-		formObj.attr("action", "/updateBoard");
+		formObj.attr("action", "/board/modifyPage");
 		formObj.attr("method", "get");		
 		formObj.submit();
 	});
 	
 	$(".btn-danger").on("click", function(){
-		formObj.attr("action", "/deleteBoard");
+		formObj.attr("action", "/board/removePage");
 		formObj.submit();
 	});
 	
 	$(".btn-primary").on("click", function(){
 		formObj.attr("method", "get");
-		formObj.attr("action", "/listPage");
+		formObj.attr("action", "/board/listPage");
 		formObj.submit();
 	});
 	

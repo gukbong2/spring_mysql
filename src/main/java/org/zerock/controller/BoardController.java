@@ -1,8 +1,9 @@
 package org.zerock.controller;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,115 +11,110 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
+import org.zerock.domain.PageMaker;
 import org.zerock.service.BoardService;
-import org.zerock.vo.BoardVO;
-import org.zerock.vo.PageMaker;
-import org.zerock.vo.PagingVO;
 
 @Controller
-//@RequestMapping("/board/*")
+@RequestMapping("/board/*")
 public class BoardController {
-	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
-	
-	@Autowired
-	private BoardService boardService;
-	
-	@RequestMapping(value="/insertBoard", method = RequestMethod.GET)
-	public String registerGET(BoardVO vo, Model model) throws Exception {
-		logger.info("register get~~~");
-		return "/board/boardInsert";
-	}
-	
-	@RequestMapping(value="/insertBoard", method = RequestMethod.POST)
-	public String registerPOST(BoardVO vo, Model model, RedirectAttributes rttr) throws Exception {
-		logger.info("register post~~~");
-		logger.info(vo.toString());
-		boardService.insertBoardService(vo);
-		//model.addAttribute("result", "SUCCESS");
-		
-		rttr.addFlashAttribute("msg", "success");	
-		//리다이렉트 어트리부트를 사용하면 uri상에서 데이터가 숨겨져서 표시된다.
-//		return "redirect:/listBoard";
-		return "redirect:/listPage";
-	}
-	
-//	@RequestMapping(value="/listBoard", method=RequestMethod.GET)
-//	public String listBoardGET(Model model) throws Exception {
-//		logger.info("show boardList ...");
-//		model.addAttribute("BoardList", boardService.listBoardService());
-//		return "/board/boardList";
-//	
-//	}
-//	
-	@RequestMapping(value="/readBoard", method=RequestMethod.GET) 
-	public String readBoardGET(@RequestParam("bno") int bno, Model model) throws Exception {
-		model.addAttribute(boardService.readBoardService(bno));
-		//addAttribute 할 때 이름없이 데이터를 넣으면 자동으로 클래스의 이름을 소문자로 시작해서 사용하게 됨.
-		//위의 코드에 들어가는 데이터는 BoardVO 클래스의 객체이므로, 'boardVO'라는 이름으로 저장하게 됨.
-		return "/board/boardRead";
-	}
-	
-	@RequestMapping(value="/deleteBoard", method=RequestMethod.POST)
-	public String deleteBoardPOST(@RequestParam("bno") int bno, RedirectAttributes rttr, PagingVO page) throws Exception {
-		boardService.deleteBoardService(bno);
-		rttr.addFlashAttribute("msg", "SUCCESS");
-		rttr.addAttribute("page", page.getPage());
-		rttr.addAttribute("perPageNum", page.getPerPageNum());
-		//return "redirect:/listBoard";
-		return "redirect:/listPage";
-	}
-	
-	@RequestMapping(value="/updateBoard", method=RequestMethod.GET) 
-	public String updateBoardGET(int bno, Model model, @ModelAttribute("p") PagingVO page) throws Exception {
-		model.addAttribute(boardService.readBoardService(bno));
-		return "/board/boardUpdate";
-	}
-	
-	@RequestMapping(value="/updateBoard", method=RequestMethod.POST) 
-	public String updateBoardPOST(BoardVO vo, RedirectAttributes rttr, PagingVO page) throws Exception {
-		logger.info("updateBoard Post...");
-		boardService.updateBoardService(vo);
-		rttr.addFlashAttribute("msg", "SUCCESS");
-		rttr.addAttribute("page", page.getPage());
-		rttr.addAttribute("perPageNum", page.getPerPageNum());
-		//return "redirect:/listBoard";
-		return "redirect:/listPage";
-	}
-	
-//	@RequestMapping(value="/listPaging", method=RequestMethod.GET) 
-//	public String listPaging(PagingVO page, Model model) throws Exception {
-//		logger.info("show list Page with PagingVO...");
-//		model.addAttribute("BoardList", boardService.listPageBoardPagingService(page));
-//		PageMaker pageMaker = new PageMaker();
-//		pageMaker.setCri(page);
-//		pageMaker.setTotalCount(131);
-//		model.addAttribute("pageMaker", pageMaker);
-//		return "/board/boardListPaging";
-//	} 
-	
-	@RequestMapping(value="/listPage", method = RequestMethod.GET) 
-	public String listPage(PagingVO page, Model model) throws Exception {
-		logger.info(page.toString());
-		
-		model.addAttribute("BoardList", boardService.listPageBoardPagingService(page));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(page);
-		//pageMaker.setTotalCount(131);
-		
-		pageMaker.setTotalCount(boardService.listCountWithPagingVO(page));
-		
-		model.addAttribute("pageMaker", pageMaker);
-		
-		return "/board/boardListPageMaker";
-	}
-	
-	@RequestMapping(value="/readPage", method=RequestMethod.GET) 
-	public String readPage(@RequestParam("bno") int bno, @ModelAttribute("p") PagingVO p, Model model) throws Exception {
-		model.addAttribute(boardService.readBoardService(bno));
-		return "/board/readPage";
-	}
-}
 
+  private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+  @Inject
+  private BoardService boardService;
+
+  @RequestMapping(value = "/register", method = RequestMethod.GET)
+  public void registerGET(BoardVO board, Model model) throws Exception {
+
+    logger.info("register get ...........");
+  }
+
+  @RequestMapping(value = "/register", method = RequestMethod.POST)
+  public String registPOST(BoardVO board, RedirectAttributes rttr) throws Exception {
+
+    logger.info("regist post ...........");
+    logger.info(board.toString());
+
+    boardService.regist(board);
+
+    rttr.addFlashAttribute("msg", "success");
+    return "redirect:/board/listPage";
+  }
+
+
+  
+
+  @RequestMapping(value = "/remove", method = RequestMethod.POST)
+  public String remove(@RequestParam("bno") int bno, RedirectAttributes rttr) throws Exception {
+
+    boardService.remove(bno);
+
+    rttr.addFlashAttribute("msg", "SUCCESS");
+
+    return "redirect:/board/listAll";
+  }
+
+  @RequestMapping(value = "/listCri", method = RequestMethod.GET)
+  public void listAll(Criteria cri, Model model) throws Exception {
+
+    logger.info("show list Page with Criteria......................");
+
+    model.addAttribute("list", boardService.listCriteria(cri));
+  }
+
+  @RequestMapping(value = "/listPage", method = RequestMethod.GET)
+  public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+
+    logger.info(cri.toString());
+
+    model.addAttribute("list", boardService.listCriteria(cri));
+    PageMaker pageMaker = new PageMaker();
+    pageMaker.setCri(cri);
+    // pageMaker.setTotalCount(131);
+
+    pageMaker.setTotalCount(boardService.listCountCriteria(cri));
+
+    model.addAttribute("pageMaker", pageMaker);
+  }
+
+  @RequestMapping(value = "/readPage", method = RequestMethod.GET)
+  public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+
+    model.addAttribute(boardService.read(bno));
+  }
+
+  @RequestMapping(value = "/removePage", method = RequestMethod.POST)
+  public String remove(@RequestParam("bno") int bno, Criteria cri, RedirectAttributes rttr) throws Exception {
+
+    boardService.remove(bno);
+
+    rttr.addAttribute("page", cri.getPage());
+    rttr.addAttribute("perPageNum", cri.getPerPageNum());
+    rttr.addFlashAttribute("msg", "SUCCESS");
+
+    return "redirect:/board/listPage";
+  }
+
+  @RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+  public void modifyPagingGET(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model)
+      throws Exception {
+
+    model.addAttribute(boardService.read(bno));
+  }
+
+  @RequestMapping(value="/modifyPage", method=RequestMethod.POST) 
+	public String updateBoardPOST(BoardVO vo, RedirectAttributes rttr, Criteria cri) throws Exception {
+		logger.info("updateBoard Post...");
+		boardService.modify(vo);
+		rttr.addFlashAttribute("msg", "SUCCESS");
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		return "redirect:/board/listPage";
+	}
+  
+}
 
 /*================================================================================================================
  * GET 방식과 POST방식

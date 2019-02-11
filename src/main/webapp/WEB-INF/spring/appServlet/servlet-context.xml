@@ -10,37 +10,19 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-<annotation-driven />
+	<annotation-driven />
 
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
 
-<resources mapping="/resources/**" location="/resources/" />
-
-
-<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<beans:property name="prefix" value="/WEB-INF/views/" />
-	<beans:property name="suffix" value=".jsp" />
-</beans:bean>
-
-<context:component-scan base-package="org.zerock.controller" />
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<context:component-scan base-package="org.zerock.controller" />
 	
 	
 	
 </beans:beans>
-
-<!-- 
-springmvc 에서 주로 사용하는 애노테이션 종류
-
-	@Controller - 스프링 MVC의 컨트롤러 객체임을 명시함
-	@RequestMapping - 특정 URI에 매칭되는 클래스나 메소드임을 명시함
-	@RequestParam - 요청(request)에서 특정한 파라미터 값을 찾아낼 때 사용함
-	@RequestHeader - 요청(request)에서 특정 HTTP 헤더 정보를 추출할 때 사용함
-	@PathVariable - 현재의 URI에서 원하는 정보를 추출할 때 사용함
-	@CookieValue - 현재 사용자의 쿠키가 존재하는 경우 쿠키의 이름을 이용해서 쿠키의 값을 추출할 때 사용함
-	@ModelAttribute - 자동으로 해당 객체를 뷰까지 전달하도록 만드는 애노테이션
-	@SessionAttribute - 세션상에서 모델의 정보를 유지하고 싶은 경우에 사용
-	@InitBinder - 파라미터를 수집해서 객체로 만들 경우에 커스터마이징
-	@ResponseBody - 리턴 타입이 HTTP의 응답 메세지로 전송
-	@RequestBody - 요청(request)문자열이 그대로 파라미터로 전달
-	@Repository - DAO 객체
-	@Service - Service 객체
- -->
