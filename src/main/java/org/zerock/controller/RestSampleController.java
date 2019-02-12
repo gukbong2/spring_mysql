@@ -64,7 +64,7 @@ public class RestSampleController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@RequestMapping("/sendErrorNot")
+	@RequestMapping("/sendErrorNot") 
 	public ResponseEntity<List<SampleVO>> sendListNot() {
 		List<SampleVO> list = new ArrayList<>();
 			for (int i = 0; i < 10; i++) {
