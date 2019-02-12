@@ -86,7 +86,7 @@ public class SearchBoardController {
   
   @RequestMapping(value="/register", method=RequestMethod.POST)
   public String registerPOST(BoardVO board, RedirectAttributes rttr) throws Exception {
-	  logger.info("register POST");
+	  logger.info("register POST");  
 	  logger.info(board.toString());
 	  
 	  boardService.regist(board);
