@@ -57,7 +57,7 @@ public class RestSampleController {
 			map.put(i, sample);
 		}
 		return map;
-	}
+	} 
 	
 	@RequestMapping("/sendErrorAuth")
 	public ResponseEntity<Void> sendListAuth() {
