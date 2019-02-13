@@ -101,8 +101,21 @@ public class RestSampleController {
  * 
  * 		ps2 : pom.xml 추가 : jackson-databind
  * 
- * 	
- * 
- * 
+ * REST 방식을 사용하는 원칙
+ * 		1. URI가 원하는 리소스를 의미 - 특별한 경우가 아니라면 영어에서 복수형의 형태로 작성하는 것이 일반적
+ * 		2. URI에는 식별할 수 있는 데이터를 같이 전달 하는것이 일반적 - HTTP의 전송 방식(method)이 실제 작업의 종류를 의미
+ * 			ex) /boards/123 : 123번 게시물을 조회한다.
+ * 			ex) /boards/123/replies/456 : 123번 게시물의 댓글 456번을 조회
+ * 			ex) /boards/123/456 : 123번 게시물의 댓글 456번을 조회
+ * 			ex) /boards/ : 신규 작성 입력 페이지 조회
+ * 			
+ * 		HTTP method(사용예)
+ * 			ex) GET == /boards/123 : 자료의 조회용
+ * 			ex) DELETE == /boards/123 : 자료의 삭제 	
+ * 			ex) POST == /boards/data : 신규 자료의 등록
+ * 			ex) PUT == /boards/123 + data : 신규 자료의 수정 혹은 등록
+ * 			ex) PATCH : PUT 대용으로 사용
+ * 		
+ * 		REST클라이언트 프로그램 - Chrome - Advanced REST Client
  * 
  */ 
