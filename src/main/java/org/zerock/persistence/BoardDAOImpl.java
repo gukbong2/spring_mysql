@@ -14,33 +14,33 @@ import org.zerock.domain.SearchCriteria;
 public class BoardDAOImpl implements BoardDAO {
 
   @Inject
-  private SqlSession session;
+  private SqlSession mybatis;
 
   private static String namespace = "org.zerock.mapper.BoardMapper";
 
   @Override
   public void create(BoardVO vo) throws Exception {
-    session.insert(namespace + ".create", vo);
+	  mybatis.insert(namespace + ".create", vo);
   }
 
   @Override
   public BoardVO read(Integer bno) throws Exception {
-    return session.selectOne(namespace + ".read", bno);
+    return mybatis.selectOne(namespace + ".read", bno);
   }
 
   @Override
   public void update(BoardVO vo) throws Exception {
-    session.update(namespace + ".update", vo);
+	  mybatis.update(namespace + ".update", vo);
   }
 
   @Override
   public void delete(Integer bno) throws Exception {
-    session.delete(namespace + ".delete", bno);
+	  mybatis.delete(namespace + ".delete", bno);
   }
 
   @Override
   public List<BoardVO> listAll() throws Exception {
-    return session.selectList(namespace + ".listAll");
+    return mybatis.selectList(namespace + ".listAll");
   }
 
   @Override
@@ -52,31 +52,31 @@ public class BoardDAOImpl implements BoardDAO {
 
     page = (page - 1) * 10;
 
-    return session.selectList(namespace + ".listPage", page);
+    return mybatis.selectList(namespace + ".listPage", page);
   }
 
   @Override
   public List<BoardVO> listCriteria(Criteria cri) throws Exception {
 
-    return session.selectList(namespace + ".listCriteria", cri);
+    return mybatis.selectList(namespace + ".listCriteria", cri);
   }
 
   @Override
   public int countPaging(Criteria cri) throws Exception {
 
-    return session.selectOne(namespace + ".countPaging", cri);
+    return mybatis.selectOne(namespace + ".countPaging", cri);
   }
 
   @Override
   public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
 
-    return session.selectList(namespace + ".listSearch", cri);
+    return mybatis.selectList(namespace + ".listSearch", cri);
   }
 
   @Override
   public int listSearchCount(SearchCriteria cri) throws Exception {
 
-    return session.selectOne(namespace + ".listSearchCount", cri);
+    return mybatis.selectOne(namespace + ".listSearchCount", cri);
   }
 
 

@@ -115,7 +115,11 @@ public class RestSampleController {
  * 			ex) POST == /boards/data : 신규 자료의 등록
  * 			ex) PUT == /boards/123 + data : 신규 자료의 수정 혹은 등록
  * 			ex) PATCH : PUT 대용으로 사용
- * 		
- * 		REST클라이언트 프로그램 - Chrome - Advanced REST Client
+ * 			ex) GET == /replies/all/123 : 게시물 123번의 모든 댓글 리스트
+ * 			ex) POST == /replies/data : 새로운 댓글 추가
+ * 			ex) PUT == /replies/456 + data : 456댓글의 수정
+ * 			ex) DELETE == replies/456 : 456댓글의 삭제			
+ * 
+ * 		REST클라이언트 프로그램 - Chrome - Advanced REST Client 설치
  * 
  */ 
