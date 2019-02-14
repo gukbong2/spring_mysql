@@ -36,6 +36,11 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value="/test", method = {RequestMethod.GET, RequestMethod.POST})
+	public void test() {
+		
+	}
+	
 }
 
 /* HTTP 상태 코드 

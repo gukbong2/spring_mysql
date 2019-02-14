@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
 import org.zerock.persistence.ReplyDAO;
 @Service
@@ -30,6 +31,17 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void removeReply(Integer rno) throws Exception {
 		dao.delete(rno);
+	}
+
+	@Override
+	public List<ReplyVO> listReplyPage(Integer bno, Criteria cri) throws Exception {
+		return dao.listPage(bno, cri);
+	}
+
+	@Override
+	public int count(Integer bno) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.count(bno);
 	}
 	
 }
