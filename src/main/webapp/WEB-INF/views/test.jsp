@@ -21,22 +21,22 @@
 	z-index: 1000;
 }
 
-/* .pagination {
+ .pagination {
   width: 100%;
 }
 
 .pagination li{
   list-style: none;
   float: left; 
-  padding: 3px; 
-  border: 1px solid blue;
-  margin:3px;  
+  padding: 5px; 
+  border: 1px solid black;
+  margin:5px;  
 }
 
 .pagination li a{
   margin: 3px;
   text-decoration: none;  
-} */
+} 
 
 </style>
 </head>
@@ -77,6 +77,7 @@
 	<ul id="replies">
 	</ul>
 	
+	<ul class="pagination"></ul>
 	
 
 
@@ -85,6 +86,7 @@
 
 	<script>
 		var bno = 4;
+		getPageList(1);
 		function getAllList() {
 			
 			$.getJSON("/replies/all/" + bno,function(data) {
@@ -161,7 +163,7 @@
 					console.log("result: " + result);
 					if (result == 'SUCCESS') {
 						alert("삭제 되었습니다.");
-						$("#modDiv").hide("slow");
+						$(	"#modDiv").hide("slow");
 						getAllList();
 					}
 				}
@@ -191,6 +193,58 @@
 						}
 				}});
 		});		
+		
+		function getPageList(page){
+			
+			  $.getJSON("/replies/"+bno+"/"+page , function(data){
+				  
+				  console.log(data.list.length);
+				  
+				  var str ="";
+				  
+				  $(data.list).each(function(){
+					  str+= "<li data-rno='"+this.rno+"' class='replyLi'>" 
+					  +this.rno+":"+ this.replytext+
+					  "<button>MOD</button></li>";
+				  });
+				  
+				  $("#replies").html(str);
+				  
+				  printPaging(data.pageMaker);
+				  
+			  });
+		  }		
+			
+			  
+			function printPaging(pageMaker){
+				
+				var str = "";
+				
+				if(pageMaker.prev){
+					str += "<li><a href='"+(pageMaker.startPage-1)+"'> << </a></li>";
+				}
+				
+				for(var i=pageMaker.startPage, len = pageMaker.endPage; i <= len; i++){				
+						var strClass= pageMaker.cri.page == i?'class=active':'';
+					  str += "<li "+strClass+"><a href='"+i+"'>"+i+"</a></li>";
+				}
+				
+				if(pageMaker.next){
+					str += "<li><a href='"+(pageMaker.endPage + 1)+"'> >> </a></li>";
+				}
+				$('.pagination').html(str);				
+			}
+			
+			var replyPage = 1;
+			
+			$(".pagination").on("click", "li a", function(event) {
+				event.preventDefault(); // A태그의 기본동작인 페이지 전환을 막는다. 막아내고 현재 클릭된 페이지를 얻어내기 위해 href속성을 막음!!!
+				
+				replyPage = $(this).attr("href");
+				
+				getPageList(replyPage);
+				
+			})
 		
 		
 		
