@@ -49,6 +49,47 @@
 					<button type="submit" class="btn btn-danger">REMOVE</button>
 					<button type="submit" class="btn btn-primary">GO LIST</button>
 				</div>
+				
+				
+				<div class="row">
+				
+					<div class="col-md-12">
+				
+						<div class="box box-success">
+							<div class="box-header">
+								<h3 class="box-title">ADD NEW REPLY</h3>
+							</div>
+						
+							<div class="box-body">
+								<label for="newReplyWriter">Writer</label>
+									<input type="text" class="form-control" placeholder="USER ID" id="newReplyWriter" />
+							
+								<label for="newReplyText">ReplyText</label>
+								<input type="text" class="form-control" placeholder="REPLY TEXT" id="newReplyText" />						
+							</div>
+						
+							<div class="box-footer">
+								<button type="submit" class="btn btn-primary" id="replyAddBtn">ADD</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+				<!-- time line -->
+				
+				<ul class="timeline">
+					<!-- timeline time label -->
+					<li class="time-label" id="repliesDiv">
+						<span class="bg-green">Replies List</span>
+					</li>
+				</ul>
+	
+				<div class='text-center'>
+					<ul id="pagination" class="pagination pagination-sm no-margin ">
+	
+					</ul>
+				</div>
 
 
 <script>
