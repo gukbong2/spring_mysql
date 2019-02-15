@@ -241,7 +241,7 @@
 				event.preventDefault(); // A태그의 기본동작인 페이지 전환을 막는다. 막아내고 현재 클릭된 페이지를 얻어내기 위해 href속성을 막음!!!
 				
 				replyPage = $(this).attr("href");
-				
+				 
 				getPageList(replyPage);
 				
 			})
