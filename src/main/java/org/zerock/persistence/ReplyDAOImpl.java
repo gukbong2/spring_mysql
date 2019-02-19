@@ -15,6 +15,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	@Autowired
 	private SqlSession mybatis;
+	
 	private static String namespace ="org.zerock.mapper.ReplyMapper";
 	
 	@Override
