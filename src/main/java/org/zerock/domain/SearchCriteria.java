@@ -19,8 +19,7 @@ public class SearchCriteria extends Criteria{
 	}
 	@Override
 	public String toString() {
-		return super.toString() + " SearchCriteria "
-				+ "[searchType=" + searchType + ", keyword="
+		return super.toString() + " SearchCriteria [searchType=" + searchType + ", keyword="
 				+ keyword + "]";
 	}
 }

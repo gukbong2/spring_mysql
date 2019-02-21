@@ -3,15 +3,16 @@ package org.zerock.persistence;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class PointDAOImpl implements PointDAO {
 
-  @Autowired
-  private SqlSession session;
+  @Inject
+  private SqlSession mybatis;
 
   private static String namespace = "org.zerock.mapper.PointMapper";
 
@@ -22,7 +23,7 @@ public class PointDAOImpl implements PointDAO {
     paramMap.put("uid", uid);
     paramMap.put("point", point);
 
-    session.update(namespace + ".updatePoint", paramMap);
+    mybatis.update(namespace + ".updatePoint", paramMap);
 
   }
 
