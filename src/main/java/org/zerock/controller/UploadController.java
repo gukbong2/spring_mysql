@@ -7,11 +7,14 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -51,6 +54,23 @@ public class UploadController {
     	return savedName;
 
 	  }
-	
+   
+   @RequestMapping(value="/uploadAjax", method=RequestMethod.GET)
+   public void uploadAjax() {
+	   
+   }
+   
+   @ResponseBody
+   @RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+   public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
+	   logger.info("originalName: " + file.getOriginalFilename());
+	   logger.info("size: " + file.getSize());
+	   logger.info("contentType: " + file.getContentType());
+	    
+	   return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.CREATED);
+	    
+	   //produces 속성 : 한국어를 정상적으로 전송하기 위한 간단한 설정
+	   //HttpStatus.CREATED : 리소스가 저상적으로 생성되었다는 코드. OK써도 됨
+   }
 	
 }
