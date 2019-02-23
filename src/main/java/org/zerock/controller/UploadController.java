@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.zerock.util.UploadFileUtils;
 
 @Controller
 public class UploadController {
@@ -67,7 +68,10 @@ public class UploadController {
 	   logger.info("size: " + file.getSize());
 	   logger.info("contentType: " + file.getContentType());
 	    
-	   return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.CREATED);
+	   return new ResponseEntity<>(UploadFileUtils.uploadFile(uploadPath, 
+															   file.getOriginalFilename(), 
+															   file.getBytes()),
+			   													HttpStatus.CREATED);
 	    
 	   //produces 속성 : 한국어를 정상적으로 전송하기 위한 간단한 설정
 	   //HttpStatus.CREATED : 리소스가 저상적으로 생성되었다는 코드. OK써도 됨
