@@ -125,4 +125,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   UPDATE TBL_BOARD SET VIEWCNT = VIEWCNT +1 WHERE BNO = #{bno}
 </update>
  
+<insert id="addAttach">
+	INSERT INTO TBl_ATTACH(FULLNAME, BNO) 
+		VALUES (#{fullName}, LAST_INSERT_ID())
+</insert> 
+ 
 </mapper>

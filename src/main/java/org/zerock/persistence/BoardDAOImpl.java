@@ -98,4 +98,12 @@ public class BoardDAOImpl implements BoardDAO {
 	  mybatis.update(namespace+".updateViewCnt", bno);
     
   }
+
+@Override
+public void addAttach(String fullName) throws Exception {
+	
+	mybatis.insert(namespace + ".addAttach", fullName);
+	
+	
+  }
 }
