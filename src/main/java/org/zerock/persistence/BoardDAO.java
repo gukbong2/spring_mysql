@@ -24,8 +24,6 @@ public interface BoardDAO {
 
   public int countPaging(Criteria cri) throws Exception;
   
-  //use for dynamic sql
-  
   public List<BoardVO> listSearch(SearchCriteria cri)throws Exception;
   
   public int listSearchCount(SearchCriteria cri)throws Exception;
@@ -40,8 +38,4 @@ public interface BoardDAO {
   
   public List<String> getAttach(Integer bno)throws Exception;  
    
-  public void deleteAttach(Integer bno)throws Exception;
-  
-  public void replaceAttach(String fullName, Integer bno)throws Exception;
-  
 }

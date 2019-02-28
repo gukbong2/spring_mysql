@@ -2,8 +2,29 @@
 	pageEncoding="UTF-8"%>
 
 <%@include file="../include/header.jsp"%>
+<script type="text/javascript" src="/resources/js/upload.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <!-- Main content -->
+    <style type="text/css">
+    .popup {position: absolute;}
+    .back { background-color: gray; opacity:0.5; width: 100%; height: 300%; overflow:hidden;  z-index:1101;}
+    .front { 
+       z-index:1110; opacity:1; boarder:1px; margin: auto; 
+      }
+     .show{
+       position:relative;
+       max-width: 1200px; 
+       max-height: 800px; 
+       overflow: auto;       
+     } 
+  	
+    </style>
+
+    <div class='popup back' style="display:none;"></div>
+    <div id="popup_front" class='popup front' style="display:none;">
+     <img id="popup_img">
+    </div>
+
 <section class="content">
 	<div class="row">
 		<!-- left column -->
@@ -43,12 +64,15 @@
 					</div>
 				</div>
 				<!-- /.box-body -->
+				
+<ul class="mailbox-attachments clearfix uploadedList"></ul>
 
-			  <div class="box-footer">
-			    <button type="submit" class="btn btn-warning" id="modifyBtn">Modify</button>
-			    <button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
-			    <button type="submit" class="btn btn-primary" id="goListBtn">GO LIST </button>
-			  </div>
+
+ <div class="box-footer">
+   <button type="submit" class="btn btn-warning" id="modifyBtn">Modify</button>
+   <button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
+   <button type="submit" class="btn btn-primary" id="goListBtn">GO LIST </button>
+ </div>
 
 
 
@@ -84,14 +108,17 @@
 				</div>
 			</div>
 
-
-			<!-- The time line -->
-			<ul class="timeline">
-				<!-- timeline time label -->
-				<li class="time-label" id="repliesDiv"><span class="bg-green">
-						Replies List </span></li>
-			</ul>
-
+		
+		<!-- The time line -->
+		<ul class="timeline">
+		  <!-- timeline time label -->
+		<li class="time-label" id="repliesDiv">
+		  <span class="bg-green">
+		    Replies List <small id='replycntSmall'> [ ${boardVO.replycnt} ] </small>
+		    </span>
+		  </li>
+		</ul>
+		   
 			<div class='text-center'>
 				<ul id="pagination" class="pagination pagination-sm no-margin ">
 
@@ -129,6 +156,19 @@
 	
 </section>
 <!-- /.content -->
+
+
+<script id="templateAttach" type="text/x-handlebars-template">
+<li data-src='{{fullName}}'>
+  <span class="mailbox-attachment-icon has-img"><img src="{{imgsrc}}" alt="Attachment"></span>
+  <div class="mailbox-attachment-info">
+	<a href="{{getLink}}" class="mailbox-attachment-name">{{fileName}}</a>
+	</span>
+  </div>
+</li>                
+</script>  
+
+
 
 <script id="template" type="text/x-handlebars-template">
 {{#each .}}
@@ -172,17 +212,19 @@
 	
 	var replyPage = 1;
 
-	function getPage(pageInfo) {
-
-		$.getJSON(pageInfo, function(data) {
-			printData(data.list, $("#repliesDiv"), $('#template'));
+	function getPage(pageInfo){
+		
+		$.getJSON(pageInfo,function(data){
+			printData(data.list, $("#repliesDiv") ,$('#template'));
 			printPaging(data.pageMaker, $(".pagination"));
-
+			
 			$("#modifyModal").modal('hide');
-			$("#replycntSmall").html("[ " + data.pageMaker.totalCount + "]");
-
+			$("#replycntSmall").html("[ " + data.pageMaker.totalCount +" ]");
+			
 		});
 	}
+
+
 
 	var printPaging = function(pageMaker, target) {
 
@@ -226,44 +268,47 @@
 		
 	});
 	
-	$("#replyAddBtn").on("click", function() {
-		var replyerObj = $("#newReplyWriter");
-		var replytextObj = $("#newReplyText");
-		var replyer = replyerObj.val();
-		var replytext = replytextObj.val();
+
+	$("#replyAddBtn").on("click",function(){
+		 
+		 var replyerObj = $("#newReplyWriter");
+		 var replytextObj = $("#newReplyText");
+		 var replyer = replyerObj.val();
+		 var replytext = replytextObj.val();
 		
-		$.ajax({
-			type : 'post',
-			url : '/replies/',
-			headers : {
-				"Content-Type" : "application/json",
-				"X-HTTP-Method-Override" : "POST"},
-			dataType : 'text',
-			data : JSON.stringify({bno : bno, replyer : replyer, replytext : replytext}),
-			success : function(result) {
-				if (result == 'SUCCESS') {
-					alert("등록되었습니다.");
-					
-					replyPage = 1;
-					getPage("/replies/" + bno + "/" + replyPage);
-					replyerObj.val("");
-					replytextObj.val("");
-					
-				}
-			}
-		});
+		  
+		  $.ajax({
+				type:'post',
+				url:'/replies/',
+				headers: { 
+				      "Content-Type": "application/json",
+				      "X-HTTP-Method-Override": "POST" },
+				dataType:'text',
+				data: JSON.stringify({bno:bno, replyer:replyer, replytext:replytext}),
+				success:function(result){
+					console.log("result: " + result);
+					if(result == 'SUCCESS'){
+						alert("등록 되었습니다.");
+						replyPage = 1;
+						getPage("/replies/"+bno+"/"+replyPage );
+						replyerObj.val("");
+						replytextObj.val("");
+					}
+			}});
 	});
 
-	$(".timeline").on("click", ".replyLi", function(event) {
+
+	$(".timeline").on("click", ".replyLi", function(event){
+		
 		var reply = $(this);
-	
+		
 		$("#replytext").val(reply.find('.timeline-body').text());
 		$(".modal-title").html(reply.attr("data-rno"));
-
+		
 	});
 	
-	/* Modal - Comment Modify */
 	
+
 	$("#replyModBtn").on("click",function(){
 		  
 		  var rno = $(".modal-title").html();
@@ -285,10 +330,7 @@
 					}
 			}});
 	});
-	
-	
-	/* Modal - Comment Delete */
-	
+
 	$("#replyDelBtn").on("click",function(){
 		  
 		  var rno = $(".modal-title").html();
@@ -309,9 +351,6 @@
 					}
 			}});
 	});
-		
-		
-	
 	
 </script>
 
@@ -329,16 +368,84 @@ $(document).ready(function(){
 		formObj.submit();
 	});
 	
-	$("#removeBtn").on("click", function(){
+/* 	$("#removeBtn").on("click", function(){
 		formObj.attr("action", "/sboard/removePage");
 		formObj.submit();
-	});
+	}); */
+
+	
+	$("#removeBtn").on("click", function(){
+		
+		var replyCnt =  $("#replycntSmall").html();
+		
+		if(replyCnt > 0 ){
+			alert("댓글이 달린 게시물을 삭제할 수 없습니다.");
+			return;
+		}	
+		
+		var arr = [];
+		$(".uploadedList li").each(function(index){
+			 arr.push($(this).attr("data-src"));
+		});
+		
+		if(arr.length > 0){
+			$.post("/deleteAllFiles",{files:arr}, function(){
+				
+			});
+		}
+		
+		formObj.attr("action", "/sboard/removePage");
+		formObj.submit();
+	});	
 	
 	$("#goListBtn ").on("click", function(){
 		formObj.attr("method", "get");
 		formObj.attr("action", "/sboard/list");
 		formObj.submit();
 	});
+	
+	var bno = ${boardVO.bno};
+	var template = Handlebars.compile($("#templateAttach").html());
+	
+	$.getJSON("/sboard/getAttach/"+bno,function(list){
+		$(list).each(function(){
+			
+			var fileInfo = getFileInfo(this);
+			
+			var html = template(fileInfo);
+			
+			 $(".uploadedList").append(html);
+			
+		});
+	});
+	
+
+
+	$(".uploadedList").on("click", ".mailbox-attachment-info a", function(event){
+		
+		var fileLink = $(this).attr("href");
+		
+		if(checkImageType(fileLink)){
+			
+			event.preventDefault();
+					
+			var imgTag = $("#popup_img");
+			imgTag.attr("src", fileLink);
+			
+			console.log(imgTag.attr("src"));
+					
+			$(".popup").show('slow');
+			imgTag.addClass("show");		
+		}	
+	});
+	
+	$("#popup_img").on("click", function(){
+		
+		$(".popup").hide('slow');
+		
+	});	
+	
+		
 	
 });
 </script>
