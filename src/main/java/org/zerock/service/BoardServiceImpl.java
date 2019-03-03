@@ -72,6 +72,7 @@ public class BoardServiceImpl implements BoardService {
     if(files == null) { return; } 
     
     for (String fileName : files) {
+    	dao.replaceAttach(fileName, bno);
     }
   }
   
@@ -86,6 +87,7 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void remove(Integer bno) throws Exception {
     dao.delete(bno);
+    //dao.deleteAttach(bno);
   } 
 
   @Override

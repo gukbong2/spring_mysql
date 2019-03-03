@@ -114,4 +114,23 @@ public class BoardDAOImpl implements BoardDAO {
   }
  
 
+  @Override
+  public void deleteAttach(Integer bno) throws Exception {
+
+	  mybatis.delete(namespace+".deleteAttach", bno);
+    
+  }
+
+  @Override
+  public void replaceAttach(String fullName, Integer bno) throws Exception {
+    
+    Map<String, Object> paramMap = new HashMap<String, Object>();
+    
+    paramMap.put("bno", bno);
+    paramMap.put("fullName", fullName);
+    
+    mybatis.insert(namespace+".replaceAttach", paramMap);
+    
+  }
+
 }

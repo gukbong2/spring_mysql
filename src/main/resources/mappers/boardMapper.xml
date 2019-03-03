@@ -151,8 +151,16 @@ INSERT INTO TBL_ATTACH(FULLNAME, BNO) VALUES (#{fullName}, LAST_INSERT_ID())
 
 
 <select id="getAttach" resultType="string">
-select fullname from tbl_attach where bno = #{bno} order by regdate
+SELECT FULLNAME FROM TBL_ATTACH WHERE BNO = #{bno} ORDER BY REGDATE
 </select> 
+
+<delete id="delteAttach">
+DELETE FROM TBL_ATTACH WHERE BNO = #{bno}
+</delete>
+
+<insert id="replaceAttach">
+INSERT INTO TBL_ATTACH(FULLNAME, BNO) VALUES (#{fullName}, #{bno})
+</insert>
 
  
 
