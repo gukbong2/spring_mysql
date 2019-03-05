@@ -1,9 +1,33 @@
-======================Filter와 HandleInteceptor 차이점======================
+====================== Filter와 HandleInteceptor 차이점 ======================
 
 	Filter
 		동일한 웹 애플리케이션의 영역 내에서 필요한 자원들을 활용
 		
-	Interceptor 
+	HandleInteceptor 
 		스프링 내 모든 객체에 접근이 가능함.
 
-오늘은 약속때문에 내일 적기-----------
+
+======================Spring AOP(Advice)와 HandleInteceptor 차이점 ======================
+	Advice
+		JoinPoint or ProceedingJoinPoint 등을 활용해서 호출 대상이 되는 메소드의 파라미터 등을 처리하는 방식
+		
+	HandleInteceptor
+		Filter와 유사하게 HttpServletRequest, HttpServletResponse를 파라미터로 받는 구조
+		
+=========================================================================================
+
+일반적인 경우라면 Controller에서는 DTO or VO 타입을 주로 파라미터로 활용하는 경우가 많음.
+	HandleInteceptor는 기존의 컨트롤러에서는 순수하게 필요한 파라미터와 결과 데이터를 만들어 내고, 인터셉터를 이용해서 웹과 관련된
+	처리를 도와주는 역할을 함
+	
+=========================================================================================
+
+====================== HandleInteceptor의 메소드 ======================
+
+	1. preHandle(request, response, handlebar) - 지정된 컨트롤러의 동작 이전에 가로채는 역할로 사용
+	2. postHandle(request, response, handler, modelAndView) - 지정된 컨트롤러의 동작 이후에 처리,
+			SpringMVC의 Front controller인 DispatcherServlet이 화면을 처리 하기 전에 동작
+		
+	3. afterCompletion(request, response, handler, exception) - DispatcherServlet의 화면 처리가 완료된 상태에서 처리
+	
+	대부분의 경우 preHandle()을 이용해서 로그인에 대한 처리를 진행 한다!!
