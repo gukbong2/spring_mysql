@@ -7,17 +7,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<insert id="create">
 		INSERT INTO TBL_MESSAGE (TARGETID, SENDER,MESSAGE)
-		VALUES (#{targetid}, #{sender}, #{message})
+			VALUES (#{targetid}, #{sender}, #{message})
 	</insert>
 
 
 	<select id="readMessage" resultType="MessageVO">
 		SELECT * FROM TBL_MESSAGE 
-		 WHERE MID = #{mid}
+			WHERE MID = #{mid}
 	</select>
 
 	<update id="updateState">
-		UPDATE TBL_MESSAGE SET OPENDATE = NOW() WHERE MID= #{mid}
+		UPDATE TBL_MESSAGE SET OPENDATE = NOW() 
+			WHERE MID= #{mid}
 	</update>
 
 </mapper>

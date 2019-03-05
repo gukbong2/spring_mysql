@@ -5,11 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.zerock.mapper.PointMapper">
 
-	<update id="updatePoint">
-		UPDATE TBL_USER 
-			SET UPOINT = UPOINT + #{point}
-			 WHERE UID = #{uid}
-	</update>
+<update id="updatePoint">
+	UPDATE TBL_USER SET UPOINT = UPOINT + #{point} WHERE
+	UID = #{uid}
+</update>
 
 </mapper>
 

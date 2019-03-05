@@ -5,76 +5,60 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="org.zerock.mapper.BoardMapper">
 
-	<insert id="create">
-		INSERT INTO TBL_BOARD (TITLE, CONTENT, WRITER)
-		VALUES(#{title},#{content}, #{writer})
-	</insert>
+<insert id="create">
+	INSERT INTO TBL_BOARD (TITLE, CONTENT, WRITER)
+	VALUES(#{title},#{content}, #{writer})
+</insert>
 
-	<select id="read" resultType="org.zerock.domain.BoardVO">
-		SELECT
-		BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT , REPLYCNT
-		FROM
-		TBL_BOARD
-		WHERE BNO = #{bno}
-	</select>
+<select id="read" resultType="org.zerock.domain.BoardVO">
+	SELECT * FROM TBL_BOARD
+	WHERE BNO = #{bno}
+</select>
 
 	<select id="listAll" resultType="org.zerock.domain.BoardVO">
  <![CDATA[
- SELECT 
-   BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT 
- FROM 
-   TBL_BOARD 
- WHERE BNO > 0 
- ORDER BY BNO DESC, REGDATE DESC
+ SELECT  * FROM TBL_BOARD 
+ 	WHERE BNO > 0 
+ 	ORDER BY BNO DESC, REGDATE DESC
  ]]>
 	</select>
 
 	<select id="listPage" resultType="BoardVO">
  <![CDATA[
- SELECT 
-   BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT , REPLYCNT
- FROM 
-   TBL_BOARD 
- WHERE BNO > 0 
- ORDER BY BNO DESC, REGDATE DESC
- LIMIT #{page}, 10
+ SELECT * FROM TBL_BOARD 
+	 WHERE BNO > 0 
+	 ORDER BY BNO DESC, REGDATE DESC
+	 LIMIT #{page}, 10
  ]]>
 	</select>
 
 	<select id="listCriteria" resultType="BoardVO">
  <![CDATA[
- SELECT 
-   BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT , REPLYCNT
- FROM 
-   TBL_BOARD 
- WHERE BNO > 0 
- ORDER BY BNO DESC, REGDATE DESC
- LIMIT #{pageStart}, #{perPageNum}
+ SELECT * FROM  TBL_BOARD 
+ 	WHERE BNO > 0 
+ 	ORDER BY BNO DESC, REGDATE DESC
+ 	LIMIT #{pageStart}, #{perPageNum}
  ]]>
 	</select>
 
 
-	<update id="update">
-		UPDATE TBL_BOARD SET TITLE =#{title}, CONTENT =#{content}
+<update id="update">
+	UPDATE TBL_BOARD SET TITLE =#{title}, CONTENT =#{content}
 		WHERE BNO = #{bno}
-	</update>
+</update>
 
-	<delete id="delete">
-		DELETE FROM TBL_BOARD WHERE BNO = #{bno}
-	</delete>
+<delete id="delete">
+	DELETE FROM TBL_BOARD WHERE BNO = #{bno}
+</delete>
 
 
 
-	<select id="countPaging" resultType="int">
- <![CDATA[
- SELECT 
-   COUNT(BNO) 
- FROM 
-   TBL_BOARD 
- WHERE 
-   BNO > 0 
- ]]>
-	</select>
+<select id="countPaging" resultType="int">
+<![CDATA[
+SELECT COUNT(BNO) FROM TBL_BOARD 
+	WHERE BNO > 0 
+]]>
+</select>
 
 
 
@@ -90,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND WRITER LIKE CONCAT('%', #{keyword}, '%')
 			</if>
 			<if test="searchType == 'tc'.toString()">
-				aND ( TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE
+				AND ( TITLE LIKE CONCAT('%', #{keyword}, '%') OR CONTENT LIKE
 				CONCAT('%', #{keyword}, '%'))
 			</if>
 			<if test="searchType == 'cw'.toString()">
@@ -109,24 +93,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="listSearch" resultType="BoardVO">
 <![CDATA[  
-  SELECT * 
-  FROM TBL_BOARD 
-  WHERE BNO > 0 
+  SELECT * FROM TBL_BOARD 
+  	WHERE BNO > 0 
 ]]>
 
 		<include refid="search"></include>
   
 <![CDATA[    
-  ORDER BY BNO DESC
-  LIMIT #{pageStart}, #{perPageNum}
+  	ORDER BY BNO DESC
+ 	 LIMIT #{pageStart}, #{perPageNum}
 ]]>
 	</select>
 
 	<select id="listSearchCount" resultType="int">
 <![CDATA[  
-  SELECT COUNT(BNO) 
-  FROM TBL_BOARD 
-  WHERE BNO > 0 
+  SELECT COUNT(BNO) FROM TBL_BOARD 
+  	WHERE BNO > 0 
 ]]>
 		<include refid="search"></include>
 
@@ -135,35 +117,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
  
 <update id="updateReplyCnt">
-  UPDATE TBL_BOARD SET REPLYCNT = REPLYCNT + #{AMOUNT} WHERE BNO = #{bno}
+  UPDATE TBL_BOARD SET 
+  	REPLYCNT = REPLYCNT + #{amount} WHERE BNO = #{bno}
 </update>
 
 
 <update id="updateViewCnt">
-  UPDATE TBL_BOARD SET VIEWCNT = VIEWCNT +1 WHERE BNO = #{bno}
+  UPDATE TBL_BOARD SET 
+  	VIEWCNT = VIEWCNT +1 WHERE BNO = #{bno}
 </update>
 
 
  
 <insert id="addAttach">
-INSERT INTO TBL_ATTACH(FULLNAME, BNO) VALUES (#{fullName}, LAST_INSERT_ID())
+iNSERT INTO TBL_ATTACH(FULLNAME, BNO) 
+	VALUES (#{fullName}, LAST_INSERT_ID())
 </insert> 
 
 
 <select id="getAttach" resultType="string">
-SELECT FULLNAME FROM TBL_ATTACH WHERE BNO = #{bno} ORDER BY REGDATE
+SELECT FULLNAME FROM TBL_ATTACH 
+	WHERE BNO = #{bno} 
+	ORDER BY REGDATE
 </select> 
 
-<delete id="delteAttach">
-DELETE FROM TBL_ATTACH WHERE BNO = #{bno}
+ 
+<delete id="deleteAttach">
+DELETE FROM TBL_ATTACH 
+	WHERE BNO = #{bno}
 </delete>
 
 <insert id="replaceAttach">
-INSERT INTO TBL_ATTACH(FULLNAME, BNO) VALUES (#{fullName}, #{bno})
+INSERT INTO TBL_ATTACH(FULLNAME, BNO) 
+	VALUES (#{fullName}, #{bno})
 </insert>
-
- 
-
   
  
 </mapper>

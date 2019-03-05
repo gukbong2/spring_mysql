@@ -6,9 +6,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="org.zerock.mapper.ReplyMapper">
 
 	<select id="list" resultType="ReplyVO">
-		SELECT * FROM TBL_REPLY
-			WHERE BNO = #{bno}
-			ORDER BY RNO DESC
+		SELECT
+		*
+		FROM
+		TBL_REPLY
+		WHERE BNO =
+		#{bno}
+		ORDER BY RNO DESC
 	</select>
 
 	<insert id="create">
@@ -17,8 +21,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<update id="update">
-		UPDATE TBL_REPLY SET REPLYTEXT = #{replytext}, UPDATEDATE = NOW()
-			WHERE RNO = #{rno}
+		UPDATE TBL_REPLY SET REPLYTEXT = #{replytext},
+		UPDATEDATE = NOW()
+		WHERE RNO = #{rno}
 	</update>
 
 	<delete id="delete">
@@ -27,21 +32,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<select id="listPage" resultType="ReplyVO">
-		SELECT * FROM TBL_REPLY
-			WHERE BNO = #{bno}
-			ORDER BY RNO DESC
-			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+		SELECT
+		*
+		FROM
+		TBL_REPLY
+		WHERE
+		BNO =
+		#{bno}
+		ORDER BY RNO DESC
+		LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
 	<select id="count" resultType="int">
 		SELECT COUNT(BNO) FROM TBL_REPLY
-		WHERE BNO =#{bno}
+		WHERE bno =#{bno}
 	</select>
 
 
 	<select id="getBno" resultType="int">
-		SELECT BNO FROM TBL_REPLY 
-			WHERE RNO = #{rno}
+		SELECT BNO FROM TBL_REPLY WHERE RNO = #{rno}
 	</select>
 
 </mapper>
