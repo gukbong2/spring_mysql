@@ -3,14 +3,13 @@ package org.zerock.persistence;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.zerock.domain.MessageVO;
 
 @Repository
 public class MessageDAOImpl implements MessageDAO {
 
-	@Autowired
+	@Inject
 	private SqlSession mybatis;
 	
 	private static String namespace ="org.zerock.mapper.MessageMapper";	

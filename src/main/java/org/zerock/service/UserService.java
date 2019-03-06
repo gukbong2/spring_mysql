@@ -1,8 +1,8 @@
 package org.zerock.service;
 
 import org.zerock.domain.UserVO;
-import org.zerock.dto.loginDTO;
+import org.zerock.dto.LoginDTO;
 
 public interface UserService {
-	public UserVO login(loginDTO DTO) throws Exception;
+	public UserVO login(LoginDTO dto) throws Exception;
 }
