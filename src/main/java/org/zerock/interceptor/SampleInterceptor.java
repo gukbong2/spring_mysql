@@ -22,7 +22,7 @@ public class SampleInterceptor extends HandlerInterceptorAdapter{
 			request.getSession().setAttribute("result", result);
 			response.sendRedirect("/doA");
 		}
-	}
+	} 
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
