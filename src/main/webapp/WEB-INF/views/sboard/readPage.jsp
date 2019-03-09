@@ -41,9 +41,9 @@
 
 				<form role="form" action="modifyPage" method="post">
 
-					<input type='hidden' name='bno' value="${boardVO.bno}"> <input
-						type='hidden' name='page' value="${cri.page}"> <input
-						type='hidden' name='perPageNum' value="${cri.perPageNum}">
+					<input type='hidden' name='bno' value="${boardVO.bno}"> 
+					<input type='hidden' name='page' value="${cri.page}"> 
+					<input type='hidden' name='perPageNum' value="${cri.perPageNum}">
 					<input type='hidden' name='searchType' value="${cri.searchType}">
 					<input type='hidden' name='keyword' value="${cri.keyword}">
 
@@ -79,6 +79,7 @@
     <button type="submit" class="btn btn-danger" id="removeBtn">REMOVE</button>
  </c:if>
     <button type="submit" class="btn btn-primary" id="goListBtn">GO LIST </button>
+    <button type="submit" class="btn btn-primary" id="bnoCheck">BNO check</button>
   </div>
 
 			</div>
@@ -110,6 +111,7 @@
     	id="newReplyWriter" value="${login.uid }" readonly="readonly">     
     <label for="exampleInputEmail1">Reply Text</label> 
     <input class="form-control" type="text" placeholder="REPLY TEXT" id="newReplyText">
+    <input type='hidden' id="bnobno" name='bno' value="${boardVO.bno}"> 
     </div>
   
 		<div class="box-footer">
@@ -237,10 +239,7 @@
 
 	}
 
-	var bno = $
-	{
-		boardVO.bno
-	};
+	var bno = "${boardVO.bno}";
 
 	var replyPage = 1;
 
@@ -298,7 +297,7 @@
 	});
 
 	$("#replyAddBtn").on("click", function() {
-
+		var bno = $("#bnobno").val();
 		var replyerObj = $("#newReplyWriter");
 		var replytextObj = $("#newReplyText");
 		var replyer = replyerObj.val();
@@ -387,6 +386,12 @@
 			}
 		});
 	});
+	
+	$("#bnoCheck").on("click", function() {
+		var bno = $("#bnobno").val();
+		alert(bno);
+	});	
+	
 </script>
 
 
