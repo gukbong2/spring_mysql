@@ -9,6 +9,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	SELECT UID, UPW, UNAME FROM TBL_USER WHERE UID = #{uid} AND UPW = #{upw}
 </select>
 
+<update id="keepLogin">
+	UPDATE TBK)YSER SET SESSUIBJET - #{sessionId}, SessionLimit = #{next} WEHRE UID = #{uid}
+</update>
+
+<select id="checkUserWithSessionKey" resultType="UserVO">
+	SELECT * FROM TBL_USER WHERE SESSIONKEY = #{vaule} AND SESSIONLIMIT > NOW()
+</select>
+
 
 
 

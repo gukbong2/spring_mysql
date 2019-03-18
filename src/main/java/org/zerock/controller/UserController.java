@@ -1,5 +1,7 @@
 package org.zerock.controller;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -26,12 +28,19 @@ public class UserController {
 	
 	@RequestMapping(value="/loginPost", method=RequestMethod.POST)
 	public void loginPost(LoginDTO dto, HttpSession session, Model model) throws Exception {
-		UserVO user = userService.login(dto);
+		UserVO vo = userService.login(dto);
 		
-		if(user == null) {
+		if(vo == null) {
 			return;
 		}
-		model.addAttribute("userVO", user);
+		model.addAttribute("userVO", vo);
+		
+		if(dto.isUseCookie()) {
+			int amount = 60 * 60 * 24 * 7;
+			Date sessionLimit = new Date(System.currentTimeMillis() + (1000* amount));
+			
+			userService.keepLogin(vo.getUid(), session.getId(), sessionLimit);
+		}
 	}
 	
 	
